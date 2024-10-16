@@ -8,6 +8,8 @@ const SurplusUpdate = ({accountData}) => {
 
     const id  = accountData;
     const navigate = useNavigate();
+    const [disab,setDisab] = useState(false);
+
 
 
     const [formData, setFormData] = useState({
@@ -176,7 +178,7 @@ const SurplusUpdate = ({accountData}) => {
                         type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
                     >
-                        Create Account
+                        Update Account
                     </button>
                 </div>
 

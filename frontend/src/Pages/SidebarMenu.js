@@ -26,7 +26,7 @@ const SidebarMenu = () => {
 
   return (
     
-    <div className=" gap-10 bg-gray-100 p-4 rounded-lg shadow-lg flex mt-24">
+    <div className=" gap-10 bg-gray-100 p-4 rounded-lg shadow-lg flex">
       {/* Account Section */}
       <div className="mb-4 cursor-pointer" onClick={handleAccountClick}>
         <div className="flex justify-between items-center text-xs font-semibold bg-gray-300 p-2 rounded-md">

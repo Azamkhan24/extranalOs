@@ -11,6 +11,11 @@ import axios from "axios";
 import LandingPage from "./Pages/LandingPage";
 import SidebarMenu from "./Pages/SidebarMenu";
 import Account from "./Pages/Account";
+import AccountPage from "./Pages/AccountPage";
+import EditAccount from "./Pages/AccountComp/EditAccount";
+import ListAccount from "./Pages/AccountComp/ListAccount";
+import ConfigurationPage from "./Pages/ConfigurationPage";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -51,10 +56,16 @@ function App() {
           <Route exact path="/" element={<Home />}>
             <Route index element={<LandingPage />} />
 
-            <Route exact path="/Sidemenu" element={<SidebarMenu/>} />
-            <Route exact path="/account" element={<Account/>} />
+            {/* <Route exact path="/sidemenu" element={<SidebarMenu />} /> */}
+            <Route exact path="/account" element={<AccountPage />} />
+            <Route path="/account/:group" element={<Account AddAccount={true} />} />
 
-                       {/* Catch-all route for 404 */}
+          {/* Route for listing accounts */}
+          <Route path="/account/list" element={<Account List={true} />} />
+
+ 
+            <Route exact path="/general-configuration" element={<ConfigurationPage />} />
+            {/* Catch-all route for 404 */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

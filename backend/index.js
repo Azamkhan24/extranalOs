@@ -20,8 +20,8 @@ const accountgrpRoutes = require('./routes/financeRotues/accountGroupRoutes');
 const accountRoutes = require('./routes/financeRotues/accountRoutes')
 const transactionRoutes = require('./routes/transactionRoutes/transactionRoutes')
 const item = require('./routes/financeRotues/itemRoutes')
-const itemGroup = require('./routes/financeRotues/itemGroupRoutes')
- 
+const itemGroup = require('./routes/financeRotues/itemGroupRoutes');
+const voucherConfig = require('./routes/configRoutes/voucherConfigRoutes')
 
 
 
@@ -49,6 +49,7 @@ app.use('/api/account-group', accountgrpRoutes);
 app.use('/api/account',accountRoutes)
 app.use('/api/item',item);
 app.use('/api/item-group',itemGroup)
+app.use('/api/voucher',voucherConfig)
 
 
 

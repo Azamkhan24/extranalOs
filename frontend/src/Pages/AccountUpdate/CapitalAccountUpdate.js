@@ -57,6 +57,8 @@ const CapitalAccountUpdate = ({accountData}) => {
         udyam_no: "",
     });
 
+    const [disab,setDisab] = useState(false);
+
 
 
     const handleChange = (e) => {
@@ -736,7 +738,7 @@ const CapitalAccountUpdate = ({accountData}) => {
                             type="submit"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
                         >
-                            Create Account
+                            Update Account
                         </button>
                     </div>
                 </div>

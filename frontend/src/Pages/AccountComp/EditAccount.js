@@ -111,6 +111,7 @@ const EditAccount = () => {
         }
     };
 
+
     // Handle loading state
     if (loading) {
         return <div className="text-center">Loading...</div>;
@@ -128,7 +129,7 @@ const EditAccount = () => {
             {renderComponentByGroup(accountData.group)} {/* Render component based on group */}
             {/* You can add a button to save changes and navigate back, etc. */}
             <button
-                onClick={() => navigate('/account/list')} // Navigate back to the account list
+                onClick={() => navigate('/account')} // Navigate back to the account list
                 className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 mt-4 rounded"
             >
                 Back to Accounts

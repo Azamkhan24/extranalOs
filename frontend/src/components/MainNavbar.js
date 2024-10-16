@@ -9,21 +9,17 @@ function MainNavbar() {
   const navigate = useNavigate();
   const user = useSelector((state) => state?.user?.user);
 
-  const options = [
-    { label: "Master", path: "/Sidemenu" },
-    { label: "Option 2", path: "/login" },
-    { label: "Option 3", path: "/path3" },
-    { label: "Option 4", path: "/path4" },
-    { label: "Option 5", path: "/path5" },
-    { label: "Option 6", path: "/path6" },
-    { label: "Option 7", path: "/path7" },
-    { label: "Option 8", path: "/path8" },
-  ];
 
   const [selectedOption, setSelectedOption] = useState("Master");
+  const [selectedOptionConfig, setSelectedOptionConfig] = useState("Configuration");
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
+    navigate(event.target.value); // Correctly calling the navigate function
+};
+
+  const handleChangeConfig = (event) => {
+    setSelectedOptionConfig(event.target.value);
     navigate(event.target.value); // Correctly calling the navigate function
 };
 
@@ -43,7 +39,7 @@ function MainNavbar() {
   };
 
   return (
-    <header className="flex px-4 z-10 bg-violet-50 w-full fixed top-0 left-0 right-0 py-4">
+    <header className="flex px-4 z-10 bg-violet-50 w-full py-4">
       <div className="flex justify-center items-center">
         <Link to='/'>
           <img
@@ -64,7 +60,6 @@ function MainNavbar() {
         <div className="w-full flex">
           <nav className="flex flex-wrap items-center w-full text-[10px] lg:text-xs font-semibold leading-3 pl-5 text-center text-violet-950 justify-center">
             <div className="flex gap-3 lg:gap-7">
-
               <div>
                   <select
                     value={selectedOption}
@@ -80,6 +75,23 @@ function MainNavbar() {
                     <option value="/item-group">Item Group</option>
                   </select>
               </div>
+
+              <div>
+                  <select
+                    value={selectedOptionConfig}
+                    onChange={handleChangeConfig}
+                    className="gap-1 hover:border-none self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer"
+                  >
+                    <option value="Master" disabled>
+                      Configuration
+                    </option>
+                    <option value="/general-configuration">General Configuration</option>
+                    <option value="/account-group">Account Group</option>
+                    <option value="/item">Item</option>
+                    <option value="/item-group">Item Group</option>
+                  </select>
+              </div>
+
               <div className="gap-1 self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer" >
                 option
               </div>

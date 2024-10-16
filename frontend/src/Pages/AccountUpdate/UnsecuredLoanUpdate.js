@@ -98,6 +98,7 @@ const UnsecuredLoanUpdate = ({ accountData }) => {
     };
 
 
+    const [disab,setDisab] = useState(false);
 
 
 
@@ -130,7 +131,7 @@ const UnsecuredLoanUpdate = ({ accountData }) => {
             }
         } catch (error) {
             console.error("Error fetching account:", error.response?.data || error);
-            setErrorMessage(error.response?.data?.message || "An error occurred while fetching the account.");
+          //  setErrorMessage(error.response?.data?.message || "An error occurred while fetching the account.");
         }
     };
 
@@ -662,7 +663,7 @@ const UnsecuredLoanUpdate = ({ accountData }) => {
                             type="submit"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
                         >
-                            Create Account
+                            Update Account
                         </button>
                     </div>
                 </div>

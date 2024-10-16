@@ -59,7 +59,7 @@ const AccountSchema = new mongoose.Schema({
   contact_no:{type: String},
   alternative_no:{type: String},
   opening_balance: {
-    balance: { type: Number, default: 0.0 },
+    balance: { type: String, default: "0.0" },
     type_of_Account: { type: String, enum: ['+', '-'], required: true }  // Credit or Debit (+/-)
   },
   principalPlaceOfAddress: {

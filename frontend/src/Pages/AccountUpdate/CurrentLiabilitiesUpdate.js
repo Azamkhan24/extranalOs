@@ -42,6 +42,8 @@ const CurrentLiabilitiesUpdate = ({accountData}) => {
     });
 
     const [error, setError] = useState("");
+    const [disab,setDisab] = useState(false);
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target; // Destructure necessary properties
@@ -97,7 +99,7 @@ const CurrentLiabilitiesUpdate = ({accountData}) => {
             }
         } catch (error) {
             console.error("Error fetching account:", error.response?.data || error);
-            setErrorMessage(error.response?.data?.message || "An error occurred while fetching the account.");
+          //  setErrorMessage(error.response?.data?.message || "An error occurred while fetching the account.");
         }
     };
 
@@ -483,7 +485,7 @@ const CurrentLiabilitiesUpdate = ({accountData}) => {
                         type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
                     >
-                        Create Account
+                        Update Account
                     </button>
                 </div>
             </form>

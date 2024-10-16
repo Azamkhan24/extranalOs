@@ -42,7 +42,7 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full h-20 bg-blue-500 shadow-md z-50">
+    <header className="w-full bg-blue-500 shadow-md">
       <div className="flex justify-between items-center p-4">
         {/* Logo */}
         <Link to="/" className="flex items-center">

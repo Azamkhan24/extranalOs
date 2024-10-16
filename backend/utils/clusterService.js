@@ -8,7 +8,9 @@ const AccountSchema = require('../model/financeModel/accountsModel')
 const TransactionSchema = require('../model/transactionModel/salesModel')
 const itemSchema = require('../model/financeModel/itemModel');
 const specificationSchema = require('../model/financeModel/specificationModel');
-const itemGroupSchema = require('../model/financeModel/itemGroupModel')
+const itemGroupSchema = require('../model/financeModel/itemGroupModel');
+
+const VoucherConfigSchema = require('../model/configModel/voucherConfigModel')
  
 /**
  * Generate an organization ID based on initials of the organization's name
@@ -372,8 +374,11 @@ async function createOrganizationDatabase(organizationName) {
   const specificationModel = orgConnection.model('Specification', specificationSchema);
   const itemGroup = orgConnection.model('ItemGroup', itemGroupSchema);
   const Item = orgConnection.model('Item', itemSchema);
+  // const GeneralConfig = orgConnection.model('GeneralConfig', GeneralConfigSchema);
+  const VoucherConfig = orgConnection.model('VoucherConfig',VoucherConfigSchema);
   await Finanace.insertMany(accounts);
   // Insert an initial record (this will also create the database if it doesn't exist)
+ 
  
  
   // Create metadata about the organization in the global `orgExternalMeta` collection

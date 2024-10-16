@@ -55,6 +55,8 @@ const SecuritiesAndDepositeUpdate = ({accountData}) => {
         }
     };
     
+    const [disab,setDisab] = useState(false);
+
 
     const handleArrayChange = (e, index, key) => {
         const updatedArray = [...formData.contact_person];
@@ -266,7 +268,7 @@ const SecuritiesAndDepositeUpdate = ({accountData}) => {
                         type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
                     >
-                        Create Account
+                        Update Account
                     </button>
                 </div>
             </form>

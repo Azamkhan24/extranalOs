@@ -156,11 +156,11 @@ const UnsecuredLoan = () => {
                     type_of_interest: "",
                     interest_rate: "",
                 });
-                setErrorMessage(""); // Reset error if any
+               // setErrorMessage(""); // Reset error if any
             }
         } catch (error) {
             console.error("Error creating account:", error.response?.data || error);
-            setErrorMessage(error.response?.data?.message || "An error occurred while creating the account.");
+          //  setErrorMessage(error.response?.data?.message || "An error occurred while creating the account.");
         }
     };
 

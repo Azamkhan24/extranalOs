@@ -9,6 +9,9 @@ const SaleUpdate = ({ accountData }) => {
     const id = accountData;
     const navigate = useNavigate();
 
+    const [disab,setDisab] = useState(false);
+
+
 
     const [formData, setFormData] = useState({
         group: "Surplus",
@@ -181,7 +184,7 @@ const SaleUpdate = ({ accountData }) => {
                         type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
                     >
-                        {id ? "Update Account" : "Create Account"}
+                        {id ? "Update Account" : "Update Account"}
                     </button>
                 </div>
             </form>
