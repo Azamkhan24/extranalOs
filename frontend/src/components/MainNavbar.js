@@ -11,17 +11,23 @@ function MainNavbar() {
 
 
   const [selectedOption, setSelectedOption] = useState("Master");
-  const [selectedOptionConfig, setSelectedOptionConfig] = useState("Configuration");
 
   const handleChange = (event) => {
-    setSelectedOption(event.target.value);
-    navigate(event.target.value); // Correctly calling the navigate function
-};
+    const { value } = event.target;
+    setSelectedOption(value);
+    if (value) {
+      navigate(value);
+    }
+  };
 
   const handleChangeConfig = (event) => {
-    setSelectedOptionConfig(event.target.value);
-    navigate(event.target.value); // Correctly calling the navigate function
-};
+    const { value } = event.target;
+    setSelectedOption(value);
+    if (value) {
+      navigate(value);
+    }
+  };
+
 
 
 
@@ -61,49 +67,37 @@ function MainNavbar() {
           <nav className="flex flex-wrap items-center w-full text-[10px] lg:text-xs font-semibold leading-3 pl-5 text-center text-violet-950 justify-center">
             <div className="flex gap-3 lg:gap-7">
               <div>
-                  <select
-                    value={selectedOption}
-                    onChange={handleChange}
-                    className="gap-1 hover:border-none self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer"
-                  >
-                    <option value="Master" disabled>
-                      Master
-                    </option>
-                    <option to="/account"> Account</option>
-                    <option value="/account-group">Account Group</option>
-                    <option value="/item">Item</option>
-                    <option value="/item-group">Item Group</option>
-                  </select>
+                <select
+                  value={selectedOption}
+                  onChange={handleChange}
+                  className="gap-1 hover:border-none self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer"
+                >
+                  <option>
+                    Master
+                  </option>
+                  <option to="/account"> Account</option>
+                  <option value="/accountGroup">Account Group</option>
+                  <option value="/item">Item</option>
+                  <option value="/item-group">Item Group</option>
+                </select>
               </div>
 
               <div>
-                  <select
-                    value={selectedOptionConfig}
-                    onChange={handleChangeConfig}
-                    className="gap-1 hover:border-none self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer"
-                  >
-                    <option value="Master" disabled>
-                      Configuration
-                    </option>
-                    <option value="/general-configuration">General Configuration</option>
-                    <option value="/account-group">Account Group</option>
-                    <option value="/item">Item</option>
-                    <option value="/item-group">Item Group</option>
-                  </select>
+                <select
+                  value={selectedOption}
+                  onChange={handleChangeConfig}
+                  className="gap-1 hover:border-none self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer"
+                >
+                  <option>
+                    Configuration
+                  </option>
+                  <option value="/general-configuration">General Configuration</option>
+                  <option value="/Voucher-configuration">Voucher Configuration</option>
+                  <option value="/item">Item</option>
+                  <option value="/item-group">Item Group</option>
+                </select>
               </div>
 
-              <div className="gap-1 self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer" >
-                option
-              </div>
-              <div className="gap-1 self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer" >
-                option
-              </div>
-              <div className="gap-1 self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer" >
-                option
-              </div>
-              <div className="gap-1 self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer" >
-                option
-              </div>
               <div className="gap-1 self-stretch shadow-lg p-2 my-auto bg-blue-100 rounded-lg cursor-pointer" >
                 option
               </div>
@@ -185,11 +179,15 @@ function UserIcons({ user, handleLogout }) {
         />
         {/* Clickable DS button */}
         <div
-          className="self-stretch my-auto bg-blue-300 rounded-full w-[38px] h-[38px] text-xs p-2 flex items-center justify-center shadow-sm cursor-pointer"
+          className="self-stretch my-auto bg-blue-300 rounded-full w-[38px] h-[38px] text-xs p-2 flex items-center justify-center shadow-sm cursor-pointer font-semibold"
           onClick={toggleDropdown}
         >
-          DS
+          {user?.name?.split(" ").length >= 2
+            ? `${user.name.split(" ")[0][0]}${user.name.split(" ")[1][0]}`
+            : user?.name?.charAt(0)}
+
         </div>
+
       </div>
 
       {/* Dropdown content - visible when clicked */}

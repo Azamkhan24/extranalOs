@@ -15,6 +15,8 @@ import AccountPage from "./Pages/AccountPage";
 import EditAccount from "./Pages/AccountComp/EditAccount";
 import ListAccount from "./Pages/AccountComp/ListAccount";
 import ConfigurationPage from "./Pages/ConfigurationPage";
+import GeneralConfigForm from "./Pages/GeneralConfigForm";
+import AccountGroup from "./Pages/AccountGroup";
 
 
 function App() {
@@ -63,8 +65,12 @@ function App() {
           {/* Route for listing accounts */}
           <Route path="/account/list" element={<Account List={true} />} />
 
+
+          <Route path="/accountGroup" element={<AccountGroup />} />
+
  
-            <Route exact path="/general-configuration" element={<ConfigurationPage />} />
+            <Route exact path="/Voucher-configuration" element={<ConfigurationPage />} />
+            <Route exact path="/general-configuration" element={<GeneralConfigForm />} />
             {/* Catch-all route for 404 */}
             <Route path="*" element={<NotFound />} />
           </Route>

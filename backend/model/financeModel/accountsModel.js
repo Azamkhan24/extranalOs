@@ -50,7 +50,19 @@ const BankSchema = new mongoose.Schema({
 const AccountSchema = new mongoose.Schema({
   group: { type: String, required: true },  // Account group (e.g., Sundry Debtors, Bank Account)
   name: { type: String, required: true, unique: true },
-  alias: { type: String },
+   alias: { 
+    type: mongoose.Schema.Types.Mixed,
+    ref:'GeneralConfigSchema', // Could be either a string or an array
+    validate: {
+      validator: function(value) {
+        if (Array.isArray(value)) {
+          return value.every(alias => typeof alias === 'string'); // Check if all elements are strings
+        }
+        return typeof value === 'string'; // Otherwise, it must be a string
+      },
+      message: 'Alias must be either a string or an array of strings'
+    }
+  },
   printName: { type: String, required: true },
   registrationType: { type: Boolean, default: false },  // True if registered for GST
   gstin: { type: String },
@@ -59,7 +71,7 @@ const AccountSchema = new mongoose.Schema({
   contact_no:{type: String},
   alternative_no:{type: String},
   opening_balance: {
-    balance: { type: String, default: "0.0" },
+    balance: { type: Number, default: 0.0 },
     type_of_Account: { type: String, enum: ['+', '-'], required: true }  // Credit or Debit (+/-)
   },
   principalPlaceOfAddress: {
@@ -99,6 +111,8 @@ const AccountSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now }
 });
+
+AccountSchema.index({ alias: 1 }, { unique: true, partialFilterExpression: { alias: { $exists: true, $type: "string" } } });
  
 // Pre-save middleware to update timestamps
 AccountSchema.pre('save', function(next) {

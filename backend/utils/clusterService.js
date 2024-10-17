@@ -9,7 +9,7 @@ const TransactionSchema = require('../model/transactionModel/salesModel')
 const itemSchema = require('../model/financeModel/itemModel');
 const specificationSchema = require('../model/financeModel/specificationModel');
 const itemGroupSchema = require('../model/financeModel/itemGroupModel');
-
+const GeneralConfigSchema = require('../model/configModel/generalConfigModel');
 const VoucherConfigSchema = require('../model/configModel/voucherConfigModel')
  
 /**
@@ -374,7 +374,7 @@ async function createOrganizationDatabase(organizationName) {
   const specificationModel = orgConnection.model('Specification', specificationSchema);
   const itemGroup = orgConnection.model('ItemGroup', itemGroupSchema);
   const Item = orgConnection.model('Item', itemSchema);
-  // const GeneralConfig = orgConnection.model('GeneralConfig', GeneralConfigSchema);
+  const GeneralConfig = orgConnection.model('GeneralConfig', GeneralConfigSchema);
   const VoucherConfig = orgConnection.model('VoucherConfig',VoucherConfigSchema);
   await Finanace.insertMany(accounts);
   // Insert an initial record (this will also create the database if it doesn't exist)

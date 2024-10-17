@@ -28,54 +28,65 @@ const createOrUpdateVoucherConfig = async (req, res) => {
       VoucherConfigSchema
     );
 
-    const currentConfig = await VoucherConfigModel.findOne({});
+    // Fetch the current configuration to check if it's locked
+    const currentConfig = await VoucherConfigModel.findOne({
+      voucherType: req.body.voucherType,
+    });
 
-    // Check if config is locked
+    // If configuration is locked, prevent updates
     if (
       currentConfig &&
       currentConfig.isLocked &&
       new Date() < currentConfig.lockUntil
     ) {
       return res.status(403).json({
-        message:
-          "The voucher configuration is locked and cannot be modified until the lock period expires.",
+        message: `The voucher configuration for ${req.body.voucherType} is locked and cannot be modified until ${currentConfig.lockUntil}.`,
       });
     }
 
-    let { voucherType, autoNumbering, withTax, voucherParts, startingNumber, resetNumbering } = req.body;
+    // Extract the configuration details from the request body
+    const {
+      voucherType,
+      autoNumbering,
+      withTax,
+      numberOfParts, // How many parts the voucher number will be divided into
+      voucherParts, // Parts selected by the user (Type, Year, etc.)
+      separatorSymbol, // Separator between parts
+      resetNumbering,
+    } = req.body;
 
-    // Extract the part between `org_` and the numeric part at the end from orgDbName (e.g., JPS in acc_org_jps_9325)
-    const abbreviationMatch = orgDbName.match(/org_([a-zA-Z]+)_\d+/);
-    const abbreviation = abbreviationMatch ? abbreviationMatch[1].toUpperCase() : orgDbName;
 
-    // Auto-generate the Abbreviation part with the extracted orgDbName part
-    const abbreviationPart = {
-      partType: 'Abbreviation',
-      value: abbreviation // Auto-insert extracted part of orgDbName as the abbreviation
+    // Prepare the voucher number with separators
+    const voucherNumber = voucherParts
+      .map((part) => part.value)
+      .join(separatorSymbol); // Join parts with the selected separator
+
+    // Ensure the voucher number (with separators) does not exceed 16 characters
+    if (voucherNumber.length > 16) {
+      return res.status(400).json({
+        message:
+          "The total length of the voucher number (including separators) cannot exceed 16 characters.",
+      });
+    }
+
+    // Prepare the updated configuration data
+    const configData = {
+      voucherType,
+      autoNumbering,
+      withTax,
+      numberOfParts,
+      voucherParts,
+      separatorSymbol,
+      resetNumbering,
+      isLocked: true, // Lock the config after the first save
+      lockUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Lock for 1 year
     };
 
-    // Check if voucherParts is provided by the user and ensure it doesn't already include an abbreviation part
-    voucherParts = voucherParts.filter(part => part.partType !== 'Abbreviation');
-
-    // Insert the auto-generated abbreviation part into the voucherParts
-    voucherParts.push(abbreviationPart);
-
-    // If config exists, update it; otherwise, create a new config
+    // Upsert the voucher configuration (create or update)
     const updatedConfig = await VoucherConfigModel.findOneAndUpdate(
-      {},
-      {
-        $set: {
-          voucherType,
-          autoNumbering,
-          withTax,
-          voucherParts,
-          startingNumber,
-          resetNumbering,
-          isLocked: true, // Lock the config after the first save
-          lockUntil: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // Lock it for 1 year
-        },
-      },
-      { new: true, upsert: true } // Upsert if it doesn't exist
+      { voucherType }, // Find by voucher type
+      { $set: configData }, // Update the config data
+      { new: true, upsert: true } // Create a new entry if it doesn't exist
     );
 
     res.status(200).json({

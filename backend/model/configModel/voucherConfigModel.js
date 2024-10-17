@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const voucherPartsEnum = {
   VOUCHER_TYPE: "Type", // e.g., S for Sales, P for Purchase
   YEAR: "Year", // e.g., YYYY (2024) or YY-YY (24-25)
-  NUMBER: "Number", // e.g., 001, 002
+  NUMBER: "Number", // e.g., 001, 002 (continued as a series)
   ABBREVIATION: "Abbreviation", // e.g., IN for Invoice
 };
 
@@ -34,14 +34,14 @@ const VoucherConfigSchema = new mongoose.Schema({
     default: false,
   }, // Apply tax with or without tax
 
-  // Define how many parts to divide the voucher number into (3 or 4)
+  // Define how many parts to divide the voucher number into (1 to 4)
   numberOfParts: {
     type: Number,
     validate: {
       validator: function (value) {
-        return value === 3 || value === 4; // Allow only 3 or 4 parts
+        return value >= 1 && value <= 4; // Allow only 1, 2, 3, or 4 parts
       },
-      message: "You can divide the voucher number into 3 or 4 parts.",
+      message: "You can divide the voucher number into 1 to 4 parts.",
     },
     required: true,
   },
@@ -58,12 +58,11 @@ const VoucherConfigSchema = new mongoose.Schema({
         value: {
           type: String,
           required: true,
-          // Use a validator to ensure only predefined values for Type, Year, allow dynamic values for Number and Abbreviation
           validate: {
             validator: function (value) {
               const validValues = {
-                Type: ["S", "P", "SR", "PR", "PY", "RE", "CO", "MI", "MR"], // Sales, Purchase, Sales Return, etc.
-                Year: ["YYYY", "YY-YY"], // 2024, 24-25
+                Type: ["S", "P", "SR", "PR", "PY", "RE", "CO", "MI", "MR"],
+                Year: ["YYYY-YY", "YY-YY"],
               };
               // Check for valid predefined values for Type and Year, allow dynamic values for Number and Abbreviation
               if (
@@ -81,7 +80,6 @@ const VoucherConfigSchema = new mongoose.Schema({
     ],
     validate: {
       validator: function (parts) {
-        // Ensure that the number of parts matches the user-specified number
         return parts.length === this.numberOfParts;
       },
       message: function () {
@@ -98,11 +96,7 @@ const VoucherConfigSchema = new mongoose.Schema({
     required: true,
   },
 
-  // Starting and resetting options
-  startingNumber: {
-    type: Number,
-    default: 1,
-  }, // Starting number for vouchers
+  // Reset numbering based on a period
   resetNumbering: {
     type: String,
     enum: ["Never", "Daily", "Monthly", "Yearly"],
@@ -137,16 +131,14 @@ const VoucherConfigSchema = new mongoose.Schema({
 VoucherConfigSchema.pre("save", function (next) {
   const { voucherParts, separatorSymbol, numberOfParts } = this;
 
-  // Combine voucher parts and separators into a single string
   let voucherString = "";
   for (let i = 0; i < voucherParts.length; i++) {
     voucherString += voucherParts[i].value;
     if (i < numberOfParts - 1) {
-      voucherString += separatorSymbol; // Add the separator between each part
+      voucherString += separatorSymbol;
     }
   }
 
-  // Validate that the length of the voucher string does not exceed 16 characters
   if (voucherString.length > 16) {
     return next(
       new Error(
